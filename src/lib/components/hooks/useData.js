@@ -131,7 +131,7 @@ export const fetcher = (query, listbox, defaultListbox, minQueryLength, maxItems
   })
 }
 
-const useData = (query, isImmutable, listbox, defaultListbox, minQueryLength, maxItems) => {
+const useData = (query, isImmutable, listbox, defaultListbox, minQueryLength, maxItems, dispatch) => {
 
   // See: https://github.com/vercel/swr/discussions/1810
   const dummyArgToEnsureCachingOfZeroLengthStrings = 'X'
@@ -139,7 +139,8 @@ const useData = (query, isImmutable, listbox, defaultListbox, minQueryLength, ma
   const swrObj = useSWR(
     [
       query.toLowerCase(),
-      dummyArgToEnsureCachingOfZeroLengthStrings
+      dummyArgToEnsureCachingOfZeroLengthStrings,
+      dispatch
     ],
     (query) => fetcher(query, listbox, defaultListbox, minQueryLength, maxItems),
     swrOptions(isImmutable)
